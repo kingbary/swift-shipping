@@ -47,12 +47,12 @@ function Header() {
                                 />
                                 <label
                                     htmlFor="tracking-code"
-                                    className='absolute left-4 top-4 text-gray-400 text-base transition-all duration-200 ease-in-out cursor-text peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-xs  peer-valid:top-1 peer-valid:text-xs'
+                                    className='absolute left-4 top-4 tracking-tighter text-gray-400 text-base transition-all duration-200 ease-in-out cursor-text peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-xs  peer-valid:top-1 peer-valid:text-xs'
                                 >
                                     Enter your tracking code
                                 </label>
                             </div>
-                            <button className='m-[3px] bg-red-600 inline-flex items-center justify-center h-full py-3 px-6 text-base text-white font-bold rounded-b-md sm:rounded-none md:rounded-r-md hover:opacity-90'>
+                            <button className='m-[3px] bg-red-600 inline-flex tracking-tighter items-center justify-center h-full py-3 px-6 text-base text-white font-bold rounded-b-md sm:rounded-none md:rounded-r-md hover:opacity-90'>
                                 Track
                             </button>
                         </div>
@@ -63,21 +63,21 @@ function Header() {
                             <div>
                                 <div className='p-4 flex flex-col items-center gap-2 bg-white rounded-md md:rounded-r-none md:rounded-l-md cursor-pointer hover:text-red-600 hover:shadow-custom-shadow'>
                                     <Image src={"/assets/icons/glo-core-online.svg"} width={35} height={35} alt='' />
-                                    <p className='font-bold text-sm'>Shop Now</p>
-                                    <p className='text-gray-600 text-xs text-center'>Find the right service</p>
+                                    <p className='font-bold text-sm tracking-tighter'>Shop Now</p>
+                                    <p className='text-gray-600 text-xs text-center tracking-tighter'>Find the right service</p>
                                 </div>
                             </div>
                             <div>
                                 <div className='p-4 flex flex-col items-center gap-2 bg-white rounded-md md:rounded-none cursor-pointer hover:text-red-600 hover:shadow-custom-shadow'>
                                     <Image src={"/assets/icons/glo-core-getaquote.svg"} width={35} height={35} alt='' />
-                                    <p className='font-bold text-sm'> Get a Quote</p>
-                                    <p className='text-gray-600 text-xs text-center'>Estimate cost to share and compare</p>
+                                    <p className='font-bold text-sm tracking-tighter'> Get a Quote</p>
+                                    <p className='text-gray-600 text-xs text-center tracking-tighter'>Estimate cost to share and compare</p>
                                 </div>
                             </div>
                             <div className='relative p-4 flex flex-col items-center gap-2 bg-white rounded-md md:rounded-l-md cursor-pointer hover:text-red-600 hover:shadow-custom-shadow h-full rounded-r-md overflow-hidden'>
                                 <Image src={"/assets/icons/glo-core-getaquote.svg"} width={35} height={35} alt='' />
-                                <p className='font-bold text-sm'>  SwiftShipping for Business</p>
-                                <p className='text-gray-600 text-xs text-center'>Shipping regularly? Request a business account and profit from exclusive benefits</p>
+                                <p className='font-bold text-sm tracking-tighter'>  SwiftShipping for Business</p>
+                                <p className='text-gray-600 text-xs text- tracking-tighter'>Shipping regularly? Request a business account and profit from exclusive benefits</p>
                                 <div className='absolute -right-40 -top-20 size-40 bg-yellow-500 rotate-45'></div>
                             </div>
                         </div>

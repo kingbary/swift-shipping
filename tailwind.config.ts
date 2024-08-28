@@ -73,7 +73,8 @@ const config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       boxShadow: {
-        "custom-shadow": ".1rem .2rem 3rem .1rem #5e5e5e66"
+        "custom-shadow": ".1rem .2rem 3rem .1rem #5e5e5e66",
+        "custom-small": "0 0.1rem 0.4rem 0 #32323280"
       }
     },
   },

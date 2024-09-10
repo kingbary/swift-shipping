@@ -1,22 +1,22 @@
-import { Menu } from 'lucide-react'
+import { ChevronRight, Menu } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from '../ui/navigation-menu'
+import Link from 'next/link'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 function Header() {
     return (
         <header>
             <nav className='backgroundGradient flex items-center justify-between py-4 px-[42px]'>
-                <Image src={"/swift-logo-2.png"} width={120} height={70} alt='' />
+                <Link href={"/"}>
+                    <Image src={"/swift-logo-2.png"} width={120} height={70} alt='' />
+                </Link>
                 <div>
-                    <NavigationMenu>
+                    {/* <NavigationMenu>
                         <NavigationMenuList>
                             <NavigationMenuItem>
                                 <NavigationMenuTrigger>Track</NavigationMenuTrigger>
                                 <NavigationMenuContent className='w-screen h-[60vh] border border-red-600'>
-                                    <div>
-
-                                    </div>
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
                             <NavigationMenuItem>
@@ -26,12 +26,27 @@ function Header() {
                                 </NavigationMenuContent>
                             </NavigationMenuItem>
                         </NavigationMenuList>
-                    </NavigationMenu>
+                    </NavigationMenu> */}
+                    <Link href={"/tracking"} className='hidden md:flex items-center hover:text-red-600'>Track your item <ChevronRight /></Link>
 
                 </div>
-                <Menu strokeWidth={3} color='#D40511' size={32} />
+                <div className='md:hidden'>
+                <DropdownMenu>
+                    <DropdownMenuTrigger><Menu strokeWidth={3} color='#D40511' size={32} /></DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <DropdownMenuLabel>
+                            <Link href={"/tracking"} className='flex items-center hover:text-red-600'>Track your item <ChevronRight /></Link>
+                        </DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem>Profile</DropdownMenuItem>
+                        <DropdownMenuItem>Billing</DropdownMenuItem>
+                        <DropdownMenuItem>Team</DropdownMenuItem>
+                        <DropdownMenuItem>Subscription</DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                </div>
             </nav>
-            
+
         </header>
     )
 }

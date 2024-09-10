@@ -5,6 +5,7 @@ import axios from 'axios';
 import EditOrderModal from '@/components/common/EditOrderModal';
 import Link from 'next/link';
 import DeleteOrderModal from '@/components/common/DeleteOrderModal';
+import Header from '@/components/Home/Header';
 
 const FETCH_ORDERS_API = '/api/fetch-all-orders';
 
@@ -77,41 +78,46 @@ const OrdersTable = () => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className="container mx-auto p-4 mt-10 max-w-[100vw] overflow-x-auto">
-            <div className='flex justify-between items-center mb-10'>
-                <h1 className="text-2xl font-bold mb-4 tracking-tighter">Orders</h1>
-                <Link href={"/admin/create-order"} className='bg-red-600 inline-flex items-center justify-center h-10 px-2 font-bold text-white tracking-tighter rounded-md hover:bg-red-600/80'>Create Order</Link>
+        <>
+            <Header />
+            <div className="container mx-auto p-4 mt-10 max-w-full overflow-x-auto">
+                <div className='flex justify-between items-center mb-10'>
+                    <h1 className="text-2xl font-bold mb-4 tracking-tighter">Orders</h1>
+                    <Link href={"/admin/create-order"} className='bg-red-600 inline-flex items-center justify-center h-10 px-2 font-bold text-white tracking-tighter rounded-md hover:bg-red-600/80'>Create Order</Link>
+                </div>
+                <div className="w-full overflow-x-auto">
+                    <table className="table-auto w-full border-collapse">
+                        <thead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <tr key={headerGroup.id} className="border-b">
+                                    {headerGroup.headers.map((header) => (
+                                        <th
+                                            key={header.id}
+                                            className="px-4 py-2 text-left font-semibold tracking-tighter"
+                                        >
+                                            {header.isPlaceholder
+                                                ? null
+                                                : flexRender(header.column.columnDef.header, header.getContext())}
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
+                        <tbody>
+                            {table.getRowModel().rows.map((row) => (
+                                <tr key={row.id} className="border-b">
+                                    {row.getVisibleCells().map((cell) => (
+                                        <td key={cell.id} className="px-4 py-2 bg-gray-50 border tracking-tighter">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <table className="table-auto w-full border-collapse">
-                <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id} className="border-b">
-                            {headerGroup.headers.map((header) => (
-                                <th
-                                    key={header.id}
-                                    className="px-4 py-2 text-left font-semibold tracking-tighter"
-                                >
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(header.column.columnDef.header, header.getContext())}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id} className="border-b">
-                            {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id} className="px-4 py-2 bg-gray-50 border tracking-tighter">
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        </>
     );
 };
 

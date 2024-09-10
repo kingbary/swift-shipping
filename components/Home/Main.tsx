@@ -1,11 +1,19 @@
-import React from 'react'
-import CardContainer from '../common/CardContainer'
-import { HandHelping, MapPinHouse, PackageOpen, PlaneTakeoff, Ship, TrainFrontTunnel, Truck } from 'lucide-react'
-import ContentCard from '../common/ContentCard'
-import Image from 'next/image'
-import TrackingInput from '../common/TrackingInput'
+"use client";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';  // Import useRouter for navigation
+import CardContainer from '../common/CardContainer';
+import { HandHelping, MapPinHouse, PackageOpen, PlaneTakeoff, Ship, TrainFrontTunnel, Truck } from 'lucide-react';
+import ContentCard from '../common/ContentCard';
+import Image from 'next/image';
+import TrackingInput from '../common/TrackingInput';
 
 function MainSection() {
+    const [trackingError, setTrackingError] = useState<boolean>(false);
+    const [order, setOrder] = useState<Order | null>(null);
+    const [trackingCode, setTrackingCode] = useState<string>('');
+    const [inputValue, setInputValue] = useState<string>('');
+    const [isTracking, setIsTracking] = useState<boolean>(false);
+
     const parcelAndDocument = {
         heading: "Document and Parcel Shipping",
         subHeading1: "For All Shippers",
@@ -16,7 +24,8 @@ function MainSection() {
             { id: 2, text: "Flexible Import/Export Options", icon: MapPinHouse },
             { id: 3, text: "Wide Variety of Optional Services", icon: HandHelping }
         ]
-    }
+    };
+
     const cargoShipping = {
         heading: "Cargo Shipping",
         subHeading1: "Business Only",
@@ -27,15 +36,23 @@ function MainSection() {
             { id: 2, text: "Road Freight", icon: Truck },
             { id: 3, text: "Rail Freight", icon: TrainFrontTunnel }
         ]
-    }
+    };
+
     return (
         <section className='mb-10'>
             <div className='relative min-h-[40rem] md:min-h-[28rem] bg-[url(/assets/images/bg-1.jpg)] bg-[50%] bg-cover bg-no-repeat'>
-                {/* <Image src={"/assets/images/bg-1.jpg"} width={1500} height={420} alt='' className='w-auto h-[110%]' /> */}
                 <div className='linearGradient absolute flex flex-col gap-20 items-center justify-center top-0 right-0 w-full h-full px-4'>
                     <form className='w-full md:w-[33rem] md:mt-10 px-4'>
                         <h2 className='textShadow text-white text-xl md:text-3xl font-extrabold leading-[1.3] mb-4 tracking-tighter'>Track Your Shipment</h2>
-                        <TrackingInput />
+                        <TrackingInput
+                            className=""
+                            setTrackingError={setTrackingError}
+                            setOrder={setOrder}
+                            setTrackingCode={setTrackingCode}
+                            inputValue={inputValue}
+                            setInputValue={setInputValue}
+                            setIsTracking={setIsTracking}
+                        />
                     </form>
 
                     <div className="flex justify-center w-full -mb-[120px]">

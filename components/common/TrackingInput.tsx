@@ -1,7 +1,19 @@
 "use client";
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
+
+interface TrackingInputProps {
+    className?: string;
+    setTrackingError: (value: boolean) => void;
+    setOrder: (order: Order | null) => void;
+    setTrackingCode: (code: string) => void;
+    inputValue: string;
+    setInputValue: (value: string) => void;
+    setIsTracking: (value: boolean) => void;
+    onSuccess?: (trackingCode: string) => void;
+}
 
 function TrackingInput({
     className,
@@ -10,12 +22,16 @@ function TrackingInput({
     setTrackingCode,
     inputValue,
     setInputValue,
+    setIsTracking,
+    onSuccess,
 }: TrackingInputProps) {
     const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
 
     const handleTrack = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
+        setIsTracking(true);
 
         const formData = new FormData(e.currentTarget);
         const trackingCode = formData.get('tracking-code') as string;
@@ -31,6 +47,10 @@ function TrackingInput({
                 const order = res.data.data;
                 localStorage.setItem('orderData', JSON.stringify(order));
                 setOrder(order);
+
+                if (onSuccess) {
+                    onSuccess(trackingCode);
+                }
             } else {
                 throw new Error('Invalid response structure');
             }
@@ -40,6 +60,13 @@ function TrackingInput({
             setOrder(null);
         } finally {
             setIsLoading(false);
+            setIsTracking(false);
+        }
+    };
+
+    const handleGetOrder = () => {
+        if (inputValue) {
+            router.push(`/tracking?trackingCode=${inputValue}`);
         }
     };
 
@@ -68,7 +95,8 @@ function TrackingInput({
             </div>
             <button
                 type="submit"
-                className="m-[3px] bg-red-600 flex gap-1 tracking-tighter items-center justify-center h-full py-3 px- w-[108px] max-w-[108px] min-h-[48px] text-base text-white font-bold rounded-b-md sm:rounded-none md:rounded-r-md hover:opacity-90"
+                onClick={handleGetOrder}
+                className="md:m-[3px] w-full bg-red-600 flex gap-1 tracking-tighter items-center justify-center h-full py-3  md:w-[108px] md:max-w-[108px] min-h-[48px] text-base text-white font-bold rounded-b-md sm:rounded-none md:rounded-r-md hover:opacity-90"
             >
                 {isLoading ? <ClipLoader color="white" size={16} /> : "Track"}
             </button>

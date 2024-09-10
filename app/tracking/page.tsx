@@ -5,6 +5,8 @@ import HomeLayout from '@/components/HomeLayout';
 import { AlertTriangle, Box, CalendarCheck, Home, Info, Truck } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import TrackingInformation from './_TrackingInformation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
 function Page() {
     const [trackingError, setTrackingError] = useState(false);
@@ -12,13 +14,46 @@ function Page() {
     const [trackingCode, setTrackingCode] = useState("");
     const [inputValue, setInputValue] = useState("");
     const [isTracking, setIsTracking] = useState(false);
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
     useEffect(() => {
-        const orderData = localStorage.getItem('orderData');
-        if (orderData) {
-            setOrder(JSON.parse(orderData));
+        const trackingCodeFromQuery = searchParams.get("trackingCode");
+        console.log(trackingCodeFromQuery)
+
+        if (trackingCodeFromQuery) {
+            setTrackingCode(trackingCodeFromQuery);
+
+            const orderData = localStorage.getItem('orderData');
+            if (orderData) {
+                setOrder(JSON.parse(orderData));
+            } else {
+                fetchOrderData(trackingCodeFromQuery);
+            }
         }
-    }, []); 
+    }, [searchParams]);
+
+    const fetchOrderData = async (trackingCode: string) => {
+        try {
+            const response = await axios.get(`/api/fetch-order`, {
+                params: { trackingNumber: trackingCode },
+            });
+
+            if (response.status === 200 && response.data && response.data.data) {
+                const fetchedOrder = response.data.data;
+                setOrder(fetchedOrder);
+                localStorage.setItem('orderData', JSON.stringify(fetchedOrder));
+                setTrackingError(false); // Clear any previous errors
+            } else {
+                setTrackingError(true); // Order not found or invalid response
+            }
+        } catch (error) {
+            console.error("Error fetching order:", error);
+            setTrackingError(true);
+        } finally {
+            setIsTracking(false);
+        }
+    };
 
     const getSteps = (status: OrderStatus) => {
         const stepMapping: { [key in OrderStatus]: number } = {
@@ -30,8 +65,6 @@ function Page() {
         };
 
         const completedStep = stepMapping[status];
-        console.log("completedStep:", completedStep)
-        console.log("order:", order?.status)
 
         return [
             { icon: CalendarCheck, label: "Label Created", completed: completedStep >= 1 },
@@ -43,7 +76,6 @@ function Page() {
     };
 
     const steps = order ? getSteps(order.status as OrderStatus) : [];
-    console.log(steps)
 
     return (
         <HomeLayout>
@@ -54,13 +86,14 @@ function Page() {
                 <div className='w-full bg-[#f2f2f2] py-7 flex flex-col items-center px-4 pt-4 pb-8'>
                     <div className='w-full max-w-[550px] md:w-4/5 p-6'>
                         <TrackingInput
-                            setOrder={setOrder}
+                            className="border border-gray-400"
                             setTrackingError={setTrackingError}
+                            setOrder={setOrder}
                             setTrackingCode={setTrackingCode}
                             inputValue={inputValue}
                             setInputValue={setInputValue}
-                            className='border border-gray-500'
                             setIsTracking={setIsTracking}
+                            onSuccess={(trackingCode) => router.push(`/tracking?trackingCode=${trackingCode}`)}
                         />
                     </div>
                     {trackingError ? (

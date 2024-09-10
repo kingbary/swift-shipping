@@ -1,20 +1,5 @@
 [
   {
-    "id": 3,
-    "trackingNumber": "7X8CNAKO1",
-    "name": "John Doe",
-    "address": "21 jamm str, NY",
-    "phoneNumber": "+1(304) 303-8939",
-    "email": "myemail@gmail.com",
-    "currentLocation": "Los Angeles",
-    "status": "delivered",
-    "arrivalDate": "21st January 2023",
-    "receiverName": "Jane Doe",
-    "receiverAddress": "23 January rd, NY",
-    "receiverPhoneNumber": "909-009-3948",
-    "receiverEmail": "janedoe@gmail.com"
-  },
-  {
     "id": 4,
     "trackingNumber": "X03LXEJQ3",
     "name": "John Doe",
@@ -122,21 +107,6 @@
   {
     "id": 11,
     "trackingNumber": "P5QWZ9DT9",
-    "name": "John Doe",
-    "address": "21 jamm str, NY",
-    "phoneNumber": "+1(304) 303-8939",
-    "email": "skdskdskd@gmai.com",
-    "currentLocation": "Los Angeles",
-    "status": "shipped",
-    "arrivalDate": "21st January 2023",
-    "receiverName": "Jane Doe",
-    "receiverAddress": "23 January rd, NY",
-    "receiverPhoneNumber": "909-009-3948",
-    "receiverEmail": "janedoe@gmail.com"
-  },
-  {
-    "id": 12,
-    "trackingNumber": "WCRNEGO57",
     "name": "John Doe",
     "address": "21 jamm str, NY",
     "phoneNumber": "+1(304) 303-8939",

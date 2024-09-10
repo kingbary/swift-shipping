@@ -29,6 +29,7 @@ type TrackingInputProps = {
   inputValue: string;
   setInputValue: (value: string) => void;
   setIsTracking: (value: boolean) => void;
+  onSuccess?: (trackingCode: string) => void;
 };
 
 type EditOrderProps = {

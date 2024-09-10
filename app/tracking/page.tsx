@@ -5,7 +5,7 @@ import HomeLayout from '@/components/HomeLayout';
 import { AlertTriangle, Box, CalendarCheck, Home, Info, Truck } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import TrackingInformation from './_TrackingInformation';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import axios from 'axios';
 
 function Page() {
@@ -14,12 +14,12 @@ function Page() {
     const [trackingCode, setTrackingCode] = useState("");
     const [inputValue, setInputValue] = useState("");
     const [isTracking, setIsTracking] = useState(false);
+
     const router = useRouter();
-    const searchParams = useSearchParams();
 
     useEffect(() => {
-        const trackingCodeFromQuery = searchParams.get("trackingCode");
-        console.log(trackingCodeFromQuery)
+        const query = new URLSearchParams(window.location.search);
+        const trackingCodeFromQuery = query.get("trackingCode");
 
         if (trackingCodeFromQuery) {
             setTrackingCode(trackingCodeFromQuery);
@@ -31,7 +31,7 @@ function Page() {
                 fetchOrderData(trackingCodeFromQuery);
             }
         }
-    }, [searchParams]);
+    }, []);
 
     const fetchOrderData = async (trackingCode: string) => {
         try {
@@ -43,9 +43,9 @@ function Page() {
                 const fetchedOrder = response.data.data;
                 setOrder(fetchedOrder);
                 localStorage.setItem('orderData', JSON.stringify(fetchedOrder));
-                setTrackingError(false); // Clear any previous errors
+                setTrackingError(false);
             } else {
-                setTrackingError(true); // Order not found or invalid response
+                setTrackingError(true);
             }
         } catch (error) {
             console.error("Error fetching order:", error);

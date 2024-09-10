@@ -40,7 +40,7 @@ function MainSection() {
 
     return (
         <section className='mb-10'>
-            <div className='relative min-h-[40rem] md:min-h-[28rem] bg-[url(/assets/images/bg-1.jpg)] bg-[50%] bg-cover bg-no-repeat'>
+            <div className='relative min-h-[40rem] md:min-h-[28rem] bg-[url(/assets/images/bg-2.png)] bg-[50%] bg-cover bg-no-repeat'>
                 <div className='linearGradient absolute flex flex-col gap-20 items-center justify-center top-0 right-0 w-full h-full px-4'>
                     <form className='w-full md:w-[33rem] md:mt-10 px-4'>
                         <h2 className='textShadow text-white text-xl md:text-3xl font-extrabold leading-[1.3] mb-4 tracking-tighter'>Track Your Shipment</h2>
@@ -97,8 +97,8 @@ function MainSection() {
                     </div>
                 </div>
                 <div className='flex flex-col md:flex-row gap-6 mt-10 md:mt-40'>
-                    <ContentCard heading='Green logistics' text='Sustainable business begins with sustainable supply chains. As the pioneer of green logistics, we have an unmatched portfolio of green logistics solutions. Find out what we have to offer, why we’re committed to sustainability, and how our industry is helping deliver an even better world.' />
-                    <ContentCard heading='SwiftShipping Global Connectedness Report' text='The SwiftShipping Global Connectedness Report 2024 reveals that globalization is at a record high – despite the pandemic and geopolitical conflicts.' />
+                    <ContentCard heading='Green logistics' bgImg='core-global.jpeg' text='Sustainable business begins with sustainable supply chains. As the pioneer of green logistics, we have an unmatched portfolio of green logistics solutions. Find out what we have to offer, why we’re committed to sustainability, and how our industry is helping deliver an even better world.' />
+                    <ContentCard heading='SwiftShipping Global Connectedness Report' bgImg='innovation.jpeg' text='The SwiftShipping Global Connectedness Report 2024 reveals that globalization is at a record high – despite the pandemic and geopolitical conflicts.' />
                 </div>
             </main>
         </section>

@@ -3,8 +3,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 
-
-function TrackingInput({ className, setTrackingError, setOrder, setTrackingCode }: TrackingInputProps) {
+function TrackingInput({
+    className,
+    setTrackingError,
+    setOrder,
+    setTrackingCode,
+    inputValue,
+    setInputValue,
+}: TrackingInputProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleTrack = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -20,13 +26,16 @@ function TrackingInput({ className, setTrackingError, setOrder, setTrackingCode 
                 params: { trackingNumber: trackingCode }
             });
 
-            if (res.status === 200) {
+            if (res.status === 200 && res.data && res.data.data) {
                 setTrackingError(false);
                 const order = res.data.data;
                 localStorage.setItem('orderData', JSON.stringify(order));
                 setOrder(order);
+            } else {
+                throw new Error('Invalid response structure');
             }
         } catch (err: any) {
+            console.error('Error fetching order:', err);
             setTrackingError(true);
             setOrder(null);
         } finally {
@@ -35,12 +44,17 @@ function TrackingInput({ className, setTrackingError, setOrder, setTrackingCode 
     };
 
     return (
-        <form onSubmit={handleTrack} className={`flex flex-col md:flex-row bg-white rounded-md relative ${className}`}>
+        <form
+            onSubmit={handleTrack}
+            className={`flex flex-col md:flex-row bg-white rounded-md relative ${className}`}
+        >
             <div className="relative w-full">
                 <input
                     type="text"
                     id="tracking-code"
                     name="tracking-code"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
                     placeholder=" "
                     className="w-full outline-none border-none px-4 pt-4 h-14 md:h-full rounded-md md:rounded-l-md peer"
                     required
@@ -56,7 +70,7 @@ function TrackingInput({ className, setTrackingError, setOrder, setTrackingCode 
                 type="submit"
                 className="m-[3px] bg-red-600 flex gap-1 tracking-tighter items-center justify-center h-full py-3 px- w-[108px] max-w-[108px] min-h-[48px] text-base text-white font-bold rounded-b-md sm:rounded-none md:rounded-r-md hover:opacity-90"
             >
-                {isLoading ? (<ClipLoader color='white' size={16} />) : "Track"}
+                {isLoading ? <ClipLoader color="white" size={16} /> : "Track"}
             </button>
         </form>
     );

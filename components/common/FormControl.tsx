@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import {
     FieldValues,
     Path,
@@ -21,7 +21,7 @@ type SelectProps = {
     options: { value: string; label: string }[];
     placeholder?: string;
     value?: string;
-    onChange?: (value: string) => void;
+    onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
 } & React.ComponentPropsWithoutRef<'select'>;
 type TextAreaProps = React.ComponentPropsWithoutRef<'textarea'>;
 export type Register = UseFormRegister<FieldValues>;
@@ -70,13 +70,13 @@ export default function FormControl({
     };
 
     let content;
-    let notice = props.required ? '*' : '';
+    const notice = props.required ? '*' : '';
 
     if (isSelect(as, props)) {
         const { options, placeholder, value, onChange } = props;
 
         content = (
-            <Select value={value} onValueChange={onChange}>
+            <Select value={value} onValueChange={(val) => onChange?.(val as unknown as ChangeEvent<HTMLSelectElement>)}>
                 <SelectTrigger>
                     <SelectValue placeholder={placeholder || "Select..."} />
                 </SelectTrigger>
@@ -90,8 +90,7 @@ export default function FormControl({
             </Select>
         );
     } else if (isInput(as, props)) {
-        const inputType =
-            props.type === 'password' && showPassword ? 'text' : props.type;
+        const inputType = props.type === 'password' && showPassword ? 'text' : props.type;
 
         content = (
             <div className="relative tracking-tighter">
@@ -123,7 +122,7 @@ export default function FormControl({
                     required: props.required && 'This field is required',
                     ...registerOptions,
                 })}
-                className={`flex b-radius f-width ${props.className}`}
+                className={`border rounded-md p-2 ${error ? 'border-red-600' : 'border-[#CBD5E1]'} w-full`}
             />
         );
     }
@@ -142,11 +141,11 @@ export default function FormControl({
                 </div>
             )}
             {content}
-            {/* {error && (
+            {error && (
                 <span className="text-red-600 text-xs">
-                    {typeof error === 'string' ? error : error.message}
+                    {typeof error === 'string' ? error : error?.message}
                 </span>
-            )} */}
+            )}
         </div>
     );
 }

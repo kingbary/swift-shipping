@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
 import { NextResponse } from "next/server";
+import { getOrders } from "@/lib/redis";
 
 export async function GET(req: Request) {
   try {
@@ -14,19 +13,14 @@ export async function GET(req: Request) {
       );
     }
 
-    const filePath = path.resolve(process.cwd(), "data", "order.json");
-    const data: Order[] = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-    const order = data.find((order) => order.trackingNumber === trackingNumber);
+    const orders = await getOrders();
+    const order = orders.find((o) => o.trackingNumber === trackingNumber);
 
     if (!order) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }
 
-    return NextResponse.json({
-      message: "Order found",
-      data: order,
-    });
+    return NextResponse.json({ message: "Order found", data: order });
   } catch (error) {
     console.error("Error fetching order:", error);
     return NextResponse.json(

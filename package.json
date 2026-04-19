@@ -15,6 +15,7 @@
     "@radix-ui/react-navigation-menu": "^1.2.0",
     "@radix-ui/react-select": "^2.1.1",
     "@tanstack/react-table": "^8.20.5",
+    "@upstash/redis": "^1.37.0",
     "axios": "^1.7.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

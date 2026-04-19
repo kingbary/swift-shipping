@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
 import { NextRequest, NextResponse } from "next/server";
+import { getOrders, saveOrders } from "@/lib/redis";
 
 function generateTrackingNumber() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -15,19 +14,16 @@ function generateTrackingNumber() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const filePath = path.resolve(process.cwd(), "data", "order.json");
-
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    const orders = await getOrders();
 
     const newOrder = {
-      id: data.length + 1,
+      id: orders.length + 1,
       trackingNumber: generateTrackingNumber(),
       ...body,
     };
 
-    data.push(newOrder);
-
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    orders.push(newOrder);
+    await saveOrders(orders);
 
     return NextResponse.json({
       message: "Order created successfully!",

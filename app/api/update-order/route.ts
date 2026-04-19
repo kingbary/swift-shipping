@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-const filePath = path.resolve(process.cwd(), "data", "order.json");
+import { getOrders, saveOrders } from "@/lib/redis";
 
 export async function PUT(request: Request) {
   try {
@@ -16,22 +13,16 @@ export async function PUT(request: Request) {
       );
     }
 
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-
-    const orderIndex = data.findIndex((order: any) => order.id === id);
+    const orders = await getOrders();
+    const orderIndex = orders.findIndex((o) => o.id === id);
 
     if (orderIndex === -1) {
       return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }
 
-    const updatedOrder = {
-      ...data[orderIndex],
-      ...body,
-    };
-
-    data[orderIndex] = updatedOrder;
-
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    const updatedOrder = { ...orders[orderIndex], ...body };
+    orders[orderIndex] = updatedOrder;
+    await saveOrders(orders);
 
     return NextResponse.json({
       message: "Order updated successfully!",

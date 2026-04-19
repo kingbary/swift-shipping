@@ -1,41 +1,28 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const filePath = path.resolve(process.cwd(), 'data', 'order.json');
+import { NextResponse } from "next/server";
+import { getOrders, saveOrders } from "@/lib/redis";
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
 
-    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-
-    const orderIndex = data.findIndex((order: any) => order.id === parseInt(id));
+    const orders = await getOrders();
+    const orderIndex = orders.findIndex((o) => o.id === parseInt(id));
 
     if (orderIndex === -1) {
-      return NextResponse.json({ message: 'Order not found' }, { status: 404 });
+      return NextResponse.json({ message: "Order not found" }, { status: 404 });
     }
 
-    const deletedOrder = data.splice(orderIndex, 1);
-
-    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+    const deletedOrder = orders.splice(orderIndex, 1);
+    await saveOrders(orders);
 
     return NextResponse.json({
-      message: 'Order deleted successfully!',
+      message: "Order deleted successfully!",
       data: deletedOrder,
     });
   } catch (error) {
-    console.error('Error deleting order:', error);
-
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { message: 'Error deleting order', error: error.message },
-        { status: 500 }
-      );
-    }
-
+    console.error("Error deleting order:", error);
     return NextResponse.json(
-      { message: 'Unexpected error occurred while deleting the order' },
+      { message: "Error deleting order" },
       { status: 500 }
     );
   }

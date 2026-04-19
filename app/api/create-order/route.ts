@@ -15,7 +15,7 @@ function generateTrackingNumber() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const filePath = path.resolve("data", "order.json");
+    const filePath = path.resolve(process.cwd(), "data", "order.json");
 
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 

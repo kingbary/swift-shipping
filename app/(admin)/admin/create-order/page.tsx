@@ -39,6 +39,7 @@ function Page() {
             console.log("Order created successfully:", response.data);
         } catch (error) {
             console.error("Error creating order:", error);
+            setIsLoading(false);
         }
     };
 

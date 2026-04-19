@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const filePath = path.resolve("data", "order.json");
+const filePath = path.resolve(process.cwd(), "data", "order.json");
 
 export async function PUT(request: Request) {
   try {

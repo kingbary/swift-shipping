@@ -1,11 +1,35 @@
 "use client";
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';  // Import useRouter for navigation
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import CardContainer from '../common/CardContainer';
 import { HandHelping, MapPinHouse, PackageOpen, PlaneTakeoff, Ship, TrainFrontTunnel, Truck } from 'lucide-react';
 import ContentCard from '../common/ContentCard';
 import Image from 'next/image';
 import TrackingInput from '../common/TrackingInput';
+
+const parcelAndDocument = {
+    heading: "Document and Parcel Shipping",
+    subHeading1: "For All Shippers",
+    subHeading2: "Learn about SwiftShipping Express – the undisputed global leader in international express shipping.",
+    serviceAvailable: [
+        { id: 0, text: "Next Possible Business Day", icon: PlaneTakeoff },
+        { id: 1, text: "Tailored Business Solutions", icon: PackageOpen },
+        { id: 2, text: "Flexible Import/Export Options", icon: MapPinHouse },
+        { id: 3, text: "Wide Variety of Optional Services", icon: HandHelping }
+    ]
+};
+
+const cargoShipping = {
+    heading: "Cargo Shipping",
+    subHeading1: "Business Only",
+    subHeading2: "Discover shipping and logistics service options from DHL Global Forwarding.",
+    serviceAvailable: [
+        { id: 0, text: "Air Freight", icon: Ship },
+        { id: 1, text: "Ocean Freight", icon: PackageOpen },
+        { id: 2, text: "Road Freight", icon: Truck },
+        { id: 3, text: "Rail Freight", icon: TrainFrontTunnel }
+    ]
+};
 
 function MainSection() {
     const [trackingError, setTrackingError] = useState<boolean>(false);
@@ -13,36 +37,13 @@ function MainSection() {
     const [trackingCode, setTrackingCode] = useState<string>('');
     const [inputValue, setInputValue] = useState<string>('');
     const [isTracking, setIsTracking] = useState<boolean>(false);
-
-    const parcelAndDocument = {
-        heading: "Document and Parcel Shipping",
-        subHeading1: "For All Shippers",
-        subHeading2: "Learn about SwiftShipping Express – the undisputed global leader in international express shipping.",
-        serviceAvailable: [
-            { id: 0, text: "Next Possible Business Day", icon: PlaneTakeoff },
-            { id: 1, text: "Tailored Business Solutions", icon: PackageOpen },
-            { id: 2, text: "Flexible Import/Export Options", icon: MapPinHouse },
-            { id: 3, text: "Wide Variety of Optional Services", icon: HandHelping }
-        ]
-    };
-
-    const cargoShipping = {
-        heading: "Cargo Shipping",
-        subHeading1: "Business Only",
-        subHeading2: "Discover shipping and logistics service options from DHL Global Forwarding.",
-        serviceAvailable: [
-            { id: 0, text: "Air Freight", icon: Ship },
-            { id: 1, text: "Ocean Freight", icon: PackageOpen },
-            { id: 2, text: "Road Freight", icon: Truck },
-            { id: 3, text: "Rail Freight", icon: TrainFrontTunnel }
-        ]
-    };
+    const router = useRouter();
 
     return (
         <section className='mb-10'>
             <div className='relative min-h-[40rem] md:min-h-[28rem] bg-[url(/assets/images/bg-2.png)] bg-[50%] bg-cover bg-no-repeat'>
                 <div className='linearGradient absolute flex flex-col gap-20 items-center justify-center top-0 right-0 w-full h-full px-4'>
-                    <form className='w-full md:w-[33rem] md:mt-10 px-4'>
+                    <div className='w-full md:w-[33rem] md:mt-10 px-4'>
                         <h2 className='textShadow text-white text-xl md:text-3xl font-extrabold leading-[1.3] mb-4 tracking-tighter'>Track Your Shipment</h2>
                         <TrackingInput
                             className=""
@@ -52,8 +53,9 @@ function MainSection() {
                             inputValue={inputValue}
                             setInputValue={setInputValue}
                             setIsTracking={setIsTracking}
+                            onSuccess={(code) => router.push(`/tracking?trackingCode=${code}`)}
                         />
-                    </form>
+                    </div>
 
                     <div className="flex justify-center w-full -mb-[120px]">
                         <div className='grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-0 mx-4 items-end w-full md:w-full lg:w-3/5 h-fit md:h-[173px] rounded-md shadow-md z-10'>

@@ -9,9 +9,9 @@ type HomeLayoutProp = {
 function HomeLayout({ children }: HomeLayoutProp) {
   return (
     <>
-      <Header />
+      <div className="print:hidden"><Header /></div>
       {children}
-      <Footer />
+      <div className="print:hidden"><Footer /></div>
     </>
   )
 }

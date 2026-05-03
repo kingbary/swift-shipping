@@ -13,31 +13,33 @@ interface EditOrderProps {
 const orderStatusOptions: { id: number, value: OrderStatus, label: string }[] = [
     { id: 0, value: "Label Created", label: "Label Created" },
     { id: 1, value: "Shipped", label: "Shipped" },
-    { id: 2, value: "Attention Required", label: "Attention Required" },
-    { id: 3, value: "Out For Delivery", label: "Out For Delivery" },
-    { id: 4, value: "Delivered", label: "Delivered" },
+    { id: 2, value: "Custom Clearance", label: "Custom Clearance" },
+    { id: 3, value: "Attention Required", label: "Attention Required" },
+    { id: 4, value: "Out For Delivery", label: "Out For Delivery" },
+    { id: 5, value: "Delivered", label: "Delivered" },
 ];
 
 function EditOrderModal({ order, onSave }: EditOrderProps) {
     const [updatedOrder, setUpdatedOrder] = useState<Order>(order);
     const [loading, setLoading] = useState<boolean>(false);
+    const [open, setOpen] = useState(false);
 
-    const handleSaveOrder = async (res:any) => {
+    const handleSaveOrder = async () => {
         setLoading(true);
         try {
             await axios.put(`/api/update-order/`, updatedOrder);
-            console.log("Successfully updated order")
             onSave(updatedOrder);
-            toast.success("Order updated successfully!")
+            toast.success("Order updated successfully!");
+            setOpen(false);
         } catch (error) {
-            console.error('Failed to edit orderss', error);
+            console.error('Failed to edit order', error);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger className="hover:opacity-70" title="Edit Order">
                 <Edit size={20} />
             </DialogTrigger>

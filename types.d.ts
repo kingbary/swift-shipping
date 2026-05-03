@@ -1,6 +1,7 @@
 type OrderStatus =
   | "Label Created"
   | "Shipped"
+  | "Custom Clearance"
   | "Attention Required"
   | "Out For Delivery"
   | "Delivered";

@@ -239,7 +239,7 @@ function Page() {
                                 <DialogDescription className='flex flex-col  gap-2 items-center mt-4'>
                                     <p className='text-2xl tracking-tighter font-light text-black'>Tracking Number: <span className='font-extrabold'>{trackingNumber}</span></p>
                                     <p onClick={copyToClipboard} className='text-gray-500 text-base px-4 font-light tracking-tighter cursor-pointer hover:text-red-600'>
-                                        {copyStatus ? <span className='text-green-900'>Copied!</span> : <span className='flex items-center gap-1'>Copy tracking number <Copy size={16} /></span>}
+                                        {copyStatus ? <span className='text-[#67a31d]'>Copied!</span> : <span className='flex items-center gap-1'>Copy tracking number <Copy size={16} /></span>}
                                     </p>
                                 </DialogDescription>
                             </DialogHeader>
